@@ -1,0 +1,50 @@
+<link rel="stylesheet" property="stylesheet" href="css/boardinsert.css">
+
+<% if (opt.opt == "board") { %><!-- 게시글이 일반 게시글인 경우 -->
+<div class="boardInsert">
+    <form action="/insertBoard" enctype="multipart/form-data" method="post" class="boardForm">
+        <div>
+            제목 : <input type="text" name="title" class="title">
+            <select id="boardOpt" name="BandM" onchange="changeAlarm()"><!-- 게시글 형태 변경 시 함수 호출 -->
+                <option value="board" selected>게시글</option>
+                <option value="movie">동영상</option>
+            </select>
+        </div>
+        <div><textarea name="content" class="content"></textarea></div>
+        <div class="fileItem">
+            다중 파일 업로드 : <input type="file" name="multifile" value="파일 업로드" multiple>
+            <input type="submit" value="작성하기" class="submitItem">
+        </div>
+    </form>
+</div>
+<% } else if (opt.opt == "movie") { %><!-- 게시글이 영상 게시글인 경우 -->
+    <div class="boardInsert">
+        <form action="/insertMovie" enctype="multipart/form-data" method="post" class="boardForm">
+            <div>
+                제목 : <input type="text" name="title" class="title">
+                <select id="boardOpt" name="BandM" onchange="changeAlarm()"><!-- 게시글 형태 변경 시 함수 호출 -->
+                    <option value="board">게시글</option>
+                    <option value="movie" selected>동영상</option>
+                </select>
+            </div>
+            <div><textarea name="content" class="content"></textarea></div>
+            <div class="fileItem">
+                썸네일 업로드 : <input type="file" name="movie" value="썸네일 업로드">
+                <input type="submit" value="작성하기" class="submitItem">
+            </div>
+            <div class="fileItem">동영상 업로드 : <input type="file" name="movie" value="동영상 업로드"></div>
+        </form>
+    </div>
+<% } %>
+
+<script>
+    function changeAlarm() {
+        var TF = confirm('보드 옵션 변경 시 입력한 내용이 초기화됩니다.');
+        if (TF == true) boardChange(); // Comfirm 확인을 누를 시 함수 호출
+    }
+    function boardChange() {
+        var selectOpt = document.getElementById('boardOpt');
+        var selectValue = selectOpt.options[selectOpt.selectedIndex].value;
+        location.href = '/boardInsert?opt=' + selectValue; // 게시글 형태의 파라미터로 게시글 작성 페이지 재호출
+    }
+</script>

@@ -1,0 +1,53 @@
+.adminTop {
+    width: 100%;
+    height: 50px;
+    align-content: center;
+    text-align: center;
+}
+.adminSearchForm {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}
+.adminSearchItem {
+    display: inline-block;
+    width: 350px;
+}
+.adminSearchItem > input[type=text] {
+    width: 250px;
+    height: 30px;
+    font-size: 15pt;
+}
+.adminSearchItem > input[type=submit] {
+    float: right;
+    width: 50px;
+    height: 30px;
+}
+.adminBottom {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.userTable {
+    border: 1px solid;
+}
+.userTable th {
+    padding: 5px;
+    border: 1px solid;
+}
+.userTable td {
+    padding: 5px;
+    border: 1px solid;
+}
+.TableUserButton {
+    width: 100%;
+    height: 100%;
+}

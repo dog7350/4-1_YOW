@@ -1,0 +1,13 @@
+.joinForm {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+}
+
+.joinItem {
+    display: block;
+    margin-top: 5px;
+}

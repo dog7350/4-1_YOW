@@ -1,0 +1,86 @@
+.boardContainer {
+    margin-top: 20px;
+    width: 100%;
+    height: 800px;
+}
+.boardTop {
+    width: 100%;
+    height: 100px;
+}
+.boardTitle {
+    margin-left: 10px;
+    display: inline;
+    float: left;
+    height: 100%;
+    font-size: 30pt;
+    align-content: left;
+    text-align: left;
+}
+.boardInfo {
+    display: inline;
+    float: right;
+    height: 100%;
+    align-content: right;
+    text-align: right;
+}
+.boardContent {
+    margin-left: 10px;
+    font-size: 15pt;
+    align-content: left;
+    text-align: left;
+}
+.boardComment {
+    margin-bottom: 10px;
+    width: 100%;
+}
+.commentFormContent {
+    display: inline;
+    margin-left: 40px;
+    float: left;
+    width: 90%;
+    resize: none;
+}
+.commentSubmit {
+    display: inline;
+    width: 50px;
+    height: 50px;
+}
+.comment {
+    margin-top: 5px;
+    margin-left: 40px;
+    width: 95%;
+    text-align: left;
+    align-content: left;
+}
+.commentTitle {
+    width: 100%;
+    height: 30%;
+    border: 1px gray solid;
+}
+.commentUserInfo {
+    display: inline;
+    float: left;
+    width: 70%;
+    height: 100%;
+    font-size: 15pt;
+    font-weight: bold;
+}
+.commentInfo {
+    display: inline;
+    float: right;
+    width: 30%;
+    height: 100%;
+    text-align: right;
+    align-content: right;
+}
+.commentContent {
+    float: left;
+    width: 100%;
+    height: 70%;
+    border: 1px gray solid;
+}
+.voidDiv {
+    float: left;
+    width: 100%;
+    height: 100%;
+}

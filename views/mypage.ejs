@@ -1,0 +1,24 @@
+<link rel="stylesheet" property="stylesheet" href="css/mypage.css">
+
+<div class="mypageContainer">
+    <form action="/profileUpload" enctype="multipart/form-data" method="post" class="joinForm"><!-- 프로필 변경 부분 -->
+        <div class="joinItem"><img src="files/<%= user.img %>" style="width:180px; height:150px;"></div>
+        <div class="joinItem"><input type="file" name="file" value="이미지 업로드"></div>
+        <div class="joinItem"><input type="submit" value="이미지 변경"></div>
+    </form>
+    
+    <hr style="border: 0; height: 5px; background: #ccc;">
+    
+    <form action="/userInfoChange" method="post" class="joinForm"><!-- 개인 정보 변경 부분 -->
+        <div class="joinItem"><input type="hidden" name="id" value="<%= user.id %>"></div>
+        <div class="joinItem"><input type="text" value="<%= user.id %>" disabled></div>
+        <div class="joinItem"><input type="Password" name="pw" placeholder="PW"></div>
+        <div class="joinItem"><input type="text" name="name" placeholder="Name" value="<%= user.name %>"></div>
+        <div class="joinItem"><input type="text" name="email" placeholder="E-Mail" value="<%= user.email %>"></div>
+        <div class="joinItem"><input type="submit" value="정보 변경"></div>
+    </form>
+    
+    <hr style="border: 0; height: 5px; background: #ccc;">
+
+    <input type="Button" onclick="location.href='/memberOut'" value="회원 탈퇴">
+</div>

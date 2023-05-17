@@ -1,0 +1,81 @@
+.adminUserContainer {
+    width: 100%;
+    height: 100%;
+}
+.userBoard {
+    display: inline;
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+.boardContainer {
+    margin-top: 10px;
+    display: inline-block;
+    width: 350px;
+    height: 170px;
+    align-content: center;
+    text-align: center;
+}
+.boardImg {
+    width: 100%;
+    height: 200px;
+}
+.boardContent {
+    width: 100%;
+    height: 70px;
+}
+.boardP {
+    display: block;
+    margin-top: 2px;
+    width: 100%;
+    height: 22px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.boardTime {
+    display: inline;
+    float: right;
+    align-content: right;
+    text-align: right;
+    font-size: 8pt;
+    color: gray;
+}
+.boardNull {
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    text-align: center;
+    font-size: 50pt;
+}
+
+.userChatLog {
+    display: inline;
+    float: right;
+    width: 50%;
+    height: 100%;
+}
+.userChatTable {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.userTable {
+    border: 1px solid;
+}
+.userTable th {
+    padding: 5px;
+    border: 1px solid;
+}
+.userTable td {
+    padding: 5px;
+    border: 1px solid;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
+        <link href="css/layout.css" type="text/css" rel="stylesheet">
+        <link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+        <title>You Of Witch</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="topContainer"><!-- 상단 메뉴바 - 게시글 검색 폼 및 로고 -->
+                <div id="TitleLogo"><a href="/"><img src="files/logo.jpg" style="width:80px; height:80px;"></a></div>
+                <form action="/searchBoard" method="get" class="searchForm">
+                    <div class="searchItem">
+                        <select name="searchOpt">
+                            <option value="title" selected>제목</option>
+                            <option value="id">작성자</option>
+                        </select>
+                        <input type="text" name="search" placeholder="Search Text">
+                        <input type="submit" value="Search">
+                    </div>
+                </form>
+            </div>
+        </header>
+
+        <div class="bodyContainer">
+            <div class="leftContainer"><!-- 좌측 메뉴바 - 구독 목록 -->
+                구독 내용
+
+                <hr style="border: 0; height: 5px; background: #ccc;">
+                <div class="footer"><!-- 푸터 -->
+                    정보&nbsp;보도자료&nbsp;저작권<br>
+                    문의하기&nbsp;크리에이터&nbsp;광고<br><br>
+                    약관&nbsp;개인정보처리방침<br>
+                    정책 및 안전<br><br>
+                    개발자 : 김 대 영<br>
+                    전화번호 : 000-0000-0000<br>
+                    주소 : 서울특별시 거주<br>
+                </div>
+            </div>
+
+            <div class="rightContainer"><!-- 우측 메뉴바 - 로그인, 회원가입, 채팅 -->
+                <% if (user != null) { %><!-- 로그인한 경우 -->
+                <img src="files/<%= user.img %>" style="width:180px; height:150px;"><br>
+                반갑습니다! <%= user.id %> 님!<br>
+                <input type="button" onclick="location.href='/boardInsert?opt=board'" value="게시글 작성">
+                <input type="button" onclick="location.href='/myPage'" value="MyPage"><br>
+                <input type="button" onclick="location.href='/logout'" value="Logout">
+                    <% if (user.admin == 'o') { %><!-- 관리자인 경우 관리자페이지 표시 -->
+                        <input type="button" onclick="location.href='/adminPage?opt=all'" value="Admin Page">
+                    <% } %>
+
+                <hr style="border: 0; height: 5px; background: #ccc;">
+                
+                <div id="ChatList"><!-- 채팅 리스트 DIV -->
+                    <ul id="messageList"><!-- 실제 채팅 내용 -->
+                        <li><p style="color: goldenrod; font-weight: bold;">[채팅방 입장]</p></li>
+                    </ul>
+                </div>
+                <form id="ChatForm"><!-- 채팅 Text Form -->
+                    <input id="msg" autocomplete="off" />
+                    <button>Send</button>
+                </form>
+
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+                <script>
+                    $(() => { // 익명 함수 생성
+                        const socket = io();
+                        $('#ChatForm').submit(() => { // submit 발생 시 이벤트 처리
+                            let str = window.location.pathname + window.location.search +'|<%= user.img %>|<%= user.id %>: ' + $('#msg').val();
+                            socket.emit('chat message', str); // 입력 데이터 전송
+                            $('#msg').val('');
+                            return false;
+                        });
+                        socket.on('chat message', (msg) => { // socket 'chat message' 이벤트 발생 시 li 추가하며 메시지 출력
+                            var str = String(msg).split('|');
+                            var nowSite = String(window.location.pathname) + String(window.location.search);
+                            var site = str[0];
+                            var img = str[1];
+                            var content = str[2];
+
+                            var li = "<li><img src='files/" + img + "' style='width:20px; height:20px;'>&nbsp" + content + "</li>"; // 채팅 데이터 Append
+                            if(site == nowSite) { // 같은 페이지만 출력
+                                $('#messageList').append(li);
+                                $('#ChatList').scrollTop($('#ChatList')[0].scrollHeight);
+                            }
+                        });
+                    });
+                </script>
+                <% } else { %><!-- 로그인하지 않은 경우 -->
+                <form action="/loginCheck" method="post" class="loginForm" style="margin: 10px;">
+                    <input type="text" name="id" placeholder="ID">
+                    <input type="Password" name="pw" placeholder="PW">
+                    <input type="button" onclick="location.href='/join'" value="Join">
+                    <input type="submit" value="Login">
+                </form>
+                <% } %>
+            </div>
+
+            <div class="centerContainer"><!-- 렌더링 내용 표시 -->
+                <%- body %>
+            </div>
+        </div>
+
+        <%- script %><!-- 렌더링 파일 내부의 Script -->
+    </body>
+</html>

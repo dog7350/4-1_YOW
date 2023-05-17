@@ -1,0 +1,93 @@
+<link rel="stylesheet" property="stylesheet" href="css/boardcontent.css">
+
+<div class="boardContainer">
+    <div class="boardTop"><!-- 게시글 제목 및 작성자 등의 정보 표시 -->
+        <div class="boardTitle"><!-- 게시글 제목 -->
+            제목 : <%= board.title %>
+        </div>
+        <div class="boardInfo"><!-- 게시글 정보 -->
+            <% var strtime = board.time.getFullYear() + "-0" + (board.time.getMonth() + 1) + "-0" + board.time.getDate() + " " +
+                            board.time.getHours() + ":" + board.time.getMinutes() + ":" + board.time.getSeconds(); %>
+            작성 시간 : <%= strtime %><br><!-- 정제한 작성시간 표시 -->
+            글 번호 : <%= board.bno %> &nbsp;|&nbsp; 신고수 : <%= board.report %><br>
+            작성자 : <img src="files/<%= board.img %>" style='width:20px; height:20px;'> <%= board.id %>
+
+            <% if (user != undefined && (user.id == board.id || user.admin == 'o')) { %>
+                <div style="margin-top:3px;">
+                    <% if (user.id == board.id) { %><input type="button" onclick="location.href='/boardUpdate?opt=<%= board.opt %>&bno=<%= board.bno %>'" value="수정하기"><% } %>
+                    <input type="button" onclick="Alarm()" value="삭제하기">
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <hr style="border: 0; height: 5px; background: #ccc;">
+    <div class="boardBottom"><!-- 게시글 내용 표시 -->
+        <% if (board.opt == 'movie') { %><!-- 게시글 형태가 영상인 경우 영상 표시 -->
+            <video autoplay controls poster="movies/<%= board.thumbnail %>" preload="auto">
+                <source src="movies/<%= file[0].filename %>" type="video/mp4">
+                <source src="movies/<%= file[0].filename %>" type="video/webm">
+            </video>
+        <% } else { %><!-- 일반 게시글인 경우 이미지 또는 파일 표시 -->
+            <% for (var i = 0; i < file.length; i++) { %>
+                <img src="files/<%= file[i].filename %>"><br>
+            <% } %>
+        <% } %>
+        <br>
+        <pre class="boardContent"><%= board.content %></pre>
+    </div>
+
+    <hr style="border: 0; height: 5px; background: #ccc;">
+    <div class="boardComment"><!-- 게시글 댓글 -->
+        <% if (user != undefined && opt == 'all') { %><!-- 일반 요청인 경우 -->
+            <form action="/iuComment" method="post" class="commentForm">
+                <textarea class="commentFormContent" name="content"></textarea>
+                <input class="commentSubmit" type="submit" value="Send">
+                <input type="hidden" name="bno" value="<%= board.bno %>">
+                <input type="hidden" name="opt" value="i">
+            </form>
+        <% } else if (user != undefined && opt == 'cmtUpdate') { %><!-- 댓글 수정 요청인 경우 -->
+            <form action="/iuComment" method="post" class="commentForm">
+                <textarea class="commentFormContent" name="content"><%= cmt.content %></textarea>
+                <input class="commentSubmit" type="submit" value="Update">
+                <input type="hidden" name="bno" value="<%= board.bno %>">
+                <input type="hidden" name="cno" value="<%= cmt.cno %>">
+                <input type="hidden" name="opt" value="u">
+            </form>
+        <% } %>
+        <hr style="margin-top: 5px; border: 0; height: 2px; background: #ccc;">
+
+        <% for (var i = 0; i < comment.length; i++) { %>
+        <div class="comment"><!-- 댓글 표시 DIV -->
+            <div class="commentTitle"><!-- 댓글 작성 정보 표시 -->
+                <div class="commentUserInfo">
+                    <img src="files/<%= comment[i].img %>" style='width:30px; height:30px;'> <%= comment[i].id %>
+                </div>
+                <div class="commentInfo">
+                    <% var cmttime = comment[i].time.getFullYear() + "-0" + (comment[i].time.getMonth() + 1) + "-0" + comment[i].time.getDate() + " " +
+                            comment[i].time.getHours() + ":" + comment[i].time.getMinutes() + ":" + comment[i].time.getSeconds(); %>
+                    <p style="display:inline; font-size: 8pt; color: gray;">작성시간 : <%= cmttime %></p>&nbsp;&nbsp;<!-- 정제한 작성시간 표시 -->
+                    <% if (user != undefined && (user.id == comment[i].id || user.admin == 'o')) { %>
+                        <% if (user.id == comment[i].id) { %><input type="button" onclick="location.href='/updateComment?bno=<%= board.bno %>&cno=<%= comment[i].cno %>&opt=cmtUpdate'" value="수정하기" /><% } %>
+                    <input type="button" onclick="location.href='/deleteComment?bno=<%= board.bno %>&cno=<%= comment[i].cno %>'" value="삭제하기" />
+                    <% } %>
+                </div>
+            </div>
+            <div class="commentContent"><!-- 댓글 내용 표시 -->
+                <%= comment[i].content %>
+            </div>
+            <div class="voidDiv"><br><br></div><!-- 댓글간의 간격 조절용 DIV -->
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    function Alarm() {
+        var TF = confirm('게시물을 삭제하시겠습니까?');
+        if (TF == true) boardDelete();
+    }
+    function boardDelete() {
+        location.href = '/boardDelete?bno=<%= board.bno %>';
+    }
+</script>

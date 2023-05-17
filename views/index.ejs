@@ -1,0 +1,44 @@
+<link rel="stylesheet" property="stylesheet" href="css/index.css">
+
+<% if (boardList != null) { %><!-- 작성된 게시글이 하나라도 있는 경우 -->
+    <% for (var i = 0; i < boardList.length; i++) { %><!-- 게시글 전체 불러오기 -->
+        <a href="/boardContent?bno=<%= boardList[i].bno %>&opt=all">
+            <div class="boardContainer">
+                <div class="boardImg"><!-- 게시글의 이미지 또는 썸네일 표시 부분 -->
+                    <% if (boardList[i].opt == 'movie') { %>
+                        <img src="movies/<%= boardList[i].thumbnail %>" style='width:100%; height:100%;'>
+                    <% } else if (boardList[i].opt == 'board') {
+                            var imgflag = false;
+                            for (var j = 0; j < filesList.length; j++) { 
+                                if (boardList[i].bno == filesList[j].bno) { %>
+                                    <img src="files/<%= filesList[j].filename %>" style='width:100%; height:100%;'>
+                    <%              imgflag = true;
+                                    break;
+                                }
+                            }
+                            if (imgflag == false) { %>
+                                <img src="files/<%= boardList[i].thumbnail %>" style='width:100%; height:100%;'>
+                            <% }
+                        } %>
+                </div>
+
+                <div class="boardContent"><!-- 게시글의 정보 및 간단한 한 줄 내용 표시 -->
+                    <div style="display: inline; float: left; align-content: left; text-align: left;">
+                        작성자 : <img src="files/<%= boardList[i].img %>" style='width:20px; height:20px;'> <%= boardList[i].id %><br>
+                        <div class="boardP">제목 : <%= boardList[i].title %></div>
+                        <div class="boardP"><pre>한 줄 내용 : <%= boardList[i].content %></pre></div>
+                    </div>
+                    <div class="boardTime">
+                        <% var strtime = boardList[i].time.getFullYear() + "-0" + (boardList[i].time.getMonth() + 1) + "-0" + boardList[i].time.getDate() + " " +
+                            boardList[i].time.getHours() + ":" + boardList[i].time.getMinutes() + ":" + boardList[i].time.getSeconds(); %>
+                        <%= strtime %><!-- 정제한 작성시간 표시 -->
+                    </div>
+                </div>
+            </div>
+        </a>
+    <% } %>
+<% } else { %><!-- 작성된 게시글이 하나도 없는 경우 -->
+    <div class="boardNull">
+        등록된 게시글 없음!
+    </div>
+<% } %>
